@@ -1,0 +1,51 @@
+body {
+  font-family: Verdana, Geneva, sans-serif;
+}
+.navbar-brand{
+font-size: 30px;
+}
+.dropdown-item{
+  font-weight: bolder;
+}
+.navbar{
+  background-color: rgb(64, 139, 172);
+
+}
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+.vh-100{
+  border-radius: 3px solid black;
+}
+.navbar img {
+  display: block !important;
+  visibility: visible !important;
+}
+.navbar {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.container {
+  max-width: 1200px;
+}
+
+.img-fluid {
+  max-width: 100%;
+}
+.card{
+  display: flex;
+     background-color: wheat; 
+    /* height: 600px;
+    width: 1000px; */
+    flex-direction: row ;
+    flex-wrap: wrap;
+    margin: 100px;
+    padding: 10px;
+    padding-left: 20px;
+    margin-top: 20px;}
+.card-body{
+  flex-wrap: wrap;
+}
