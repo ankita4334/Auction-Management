@@ -1,60 +1,9 @@
+// import React from 'react'
 
 function Explore() {
   return (
-  <>
-    <div className="card" style={{ width: "18rem" }}>
-      <img
-        src="images.jpeg"
-        className="card-img-top"
-        alt="Auction Item"
-      />
-      <div className="card-body">
-        <h5 className="card-title">Auction Item</h5>
-        <p className="card-text">
-          Some quick example text to build on the card title and make up the bulk of the cards content.
-        </p>
-        <a href="#" className="btn btn-primary">
-          Place a Bid
-        </a>
-      </div>
-    </div>
-
-    
-    <div className="card" style={{ width: "18rem" }}>
-      <img
-        src="images.jpeg"
-        className="card-img-top"
-        alt="Auction Item"
-      />
-      <div className="card-body">
-        <h5 className="card-title">Auction Item</h5>
-        <p className="card-text">
-          Some quick example text to build on the card title and make up the bulk of the cards content.
-        </p>
-        <a href="#" className="btn btn-primary">
-          Place a Bid
-        </a>
-      </div>
-    </div>
-    <div className="card" style={{ width: "18rem" }}>
-      <img
-        src="images.jpeg"
-        className="card-img-top"
-        alt="Auction Item"
-      />
-      <div className="card-body">
-        <h5 className="card-title">Auction Item</h5>
-        <p className="card-text">
-          Some quick example text to build on the card title and make up the bulk of the cards content.
-        </p>
-        <a href="#" className="btn btn-primary">
-          Place a Bid
-        </a>
-      </div>
-    </div>
-
-</>
+    <div>Explore</div>
   )
 }
 
-export default Explore;
+export default Explore

@@ -1,19 +1,36 @@
 import { Link } from "react-router-dom";
-// import logo from "../assets/logo.png"; // Ensure the logo path is correct
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    console.log("Stored Username from localStorage:", storedUsername); // Debugging
+
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    console.log("User logged out, storage cleared"); // Debugging
+    setUsername(null);
+    window.location.reload();
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div className="container d-flex align-items-center">
-        {/* Logo & Brand Name (Shifted Left) */}
         <div className="me-auto d-flex align-items-center">
           <Link to="/" className="navbar-brand d-flex align-items-center">
-            <img src='flogo.png' alt="QuickBid Logo" height="60px" className="me-2" />
+            <img src="flogo.png" alt="QuickBid Logo" height="60px" className="me-2" />
             <b>QuickBid</b>
           </Link>
         </div>
 
-        {/* Toggle Button for Mobile */}
         <button
           className="navbar-toggler"
           type="button"
@@ -26,7 +43,6 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Navbar Links (No Shifting) */}
         <div className="collapse navbar-collapse" id="navbarMain">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
@@ -39,16 +55,19 @@ const Navbar = () => {
               <Link className="nav-link" to="/auction">Auction</Link>
             </li>
 
-            {/* Profile Dropdown */}
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                Profile
+                {username ? username : "Profile"}
               </a>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/signup">Signup</Link></li>
-                <li><Link className="dropdown-item" to="/signin">Signin</Link></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="#">Signout</a></li>
+                {username ? (
+                  <li><button className="dropdown-item" onClick={handleLogout}>Signout</button></li>
+                ) : (
+                  <>
+                    <li><Link className="dropdown-item" to="/signup">Signup</Link></li>
+                    <li><Link className="dropdown-item" to="/signin">Signin</Link></li>
+                  </>
+                )}
               </ul>
             </li>
           </ul>
