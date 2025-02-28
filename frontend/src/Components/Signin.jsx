@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Signin() {
@@ -9,33 +9,34 @@ function Signin() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    axios.post("http://localhost:3001/signin", { email, password })
-      .then(result => {
-        console.log("Login API Response:", result.data); // Debugging
+    axios.post("http://localhost:3001/signin", { email, password }, {
+      headers: { "Content-Type": "application/json" }
+    })
+    .then((result) => {
+      console.log("Signin Success:", result.data); 
+      
+      if (result.data.uname) {
+        localStorage.setItem("uname", result.data.uname);
+        console.log("Username stored in localStorage:", result.data.uname);
+      } else {
+        console.error("No username received in response!");
+      }
+      
+      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("role", result.data.role);
   
-        if (result.data.message === "Success") {
-          toast.success("Login Successful!", { position: "top-center" });
-  
-          if (result.data.username) {
-            localStorage.setItem("token", result.data.token);
-            localStorage.setItem("username", result.data.username); // Ensure username is stored
-            console.log("Username stored:", result.data.username); // Debugging
-  
-            navigate('/');  
-            window.location.reload(); 
-          } else {
-            console.error("Username missing in response!");
-          }
-        } else {
-          toast.error(result.data.message, { position: "top-center" });
-        }
-      })
-      .catch(err => console.error("Login Error:", err));
+      navigate("/");
+      window.dispatchEvent(new Event("storage")); // 🔄 Force navbar update
+    })
+    .catch((err) => {
+      console.error("Signin Error:", err.response ? err.response.data : err.message);
+    });
   };
-  
+
+   
   return (
     <section className="vh-100 d-flex align-items-center justify-content-center bg-light">
       <div className="container py-5">

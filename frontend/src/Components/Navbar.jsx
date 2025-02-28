@@ -1,47 +1,41 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-  const [username, setUsername] = useState(null);
+function Navbar() {
+  const [username, setUsername] = useState(localStorage.getItem("uname") || ""); 
+  const [userRole, setUserRole] = useState(localStorage.getItem("role") || ""); // ✅ Get role from storage
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    console.log("Stored Username from localStorage:", storedUsername); // Debugging
+    const handleStorageChange = () => {
+      setUsername(localStorage.getItem("uname") || "");
+      setUserRole(localStorage.getItem("role") || ""); // ✅ Update role when storage changes
+    };
 
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
+    // Listen for storage changes (works across tabs)
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    console.log("User logged out, storage cleared"); // Debugging
-    setUsername(null);
-    window.location.reload();
+    localStorage.removeItem("role");
+    localStorage.removeItem("uname");
+    setUsername(""); // Update state
+    setUserRole(""); // Clear role
+    navigate("/signin");
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div className="container d-flex align-items-center">
-        <div className="me-auto d-flex align-items-center">
-          <Link to="/" className="navbar-brand d-flex align-items-center">
-            <img src="flogo.png" alt="QuickBid Logo" height="60px" className="me-2" />
-            <b>QuickBid</b>
-          </Link>
-        </div>
-
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarMain"
-          aria-controls="navbarMain"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        <Link to="/" className="navbar-brand d-flex align-items-center">
+          <img src="flogo.png" alt="QuickBid Logo" height="60px" className="me-2" />
+          <b>QuickBid</b>
+        </Link>
 
         <div className="collapse navbar-collapse" id="navbarMain">
           <ul className="navbar-nav ms-auto">
@@ -51,9 +45,13 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/explore">Explore</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/auction">Auction</Link>
-            </li>
+
+            {/* ✅ Show "Add Product" only for admins */}
+            {userRole === "admin" && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/addProduct">Add Product</Link>
+              </li>
+            )}
 
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
@@ -75,6 +73,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;

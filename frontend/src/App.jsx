@@ -6,7 +6,7 @@ import Signup from "./Components/Signup";
 import Signin from "./Components/Signin";
 import Landing from "./Components/Landing";
 import Footer from "./Components/Footer";
-import Products from "./Components/Products";
+import AddProduct from "./Components/AddProduct";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path="/auction" element={<Auction />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/products" element={<Products/>} />
+        <Route path="/addProduct" element={<AddProduct />} />
       </Routes>
       <Footer/>
     </Router>
